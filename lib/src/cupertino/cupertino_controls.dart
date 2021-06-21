@@ -220,8 +220,6 @@ class _CupertinoControlsState extends State<CupertinoControls>
                           _buildProgressBar(),
                           _buildRemaining(iconColor),
                           _buildSubtitleToggle(iconColor, barHeight),
-                          if (chewieController.allowPlaybackSpeedChanging)
-                            _buildSpeedButton(controller, iconColor, barHeight),
                         ],
                       ),
               ),
@@ -441,7 +439,7 @@ class _CupertinoControlsState extends State<CupertinoControls>
           right: 6.0,
         ),
         child: Icon(
-          CupertinoIcons.gobackward_15,
+          CupertinoIcons.gobackward,
           color: iconColor,
           size: 18.0,
         ),
@@ -463,7 +461,7 @@ class _CupertinoControlsState extends State<CupertinoControls>
           right: 8.0,
         ),
         child: Icon(
-          CupertinoIcons.goforward_15,
+          CupertinoIcons.goforward,
           color: iconColor,
           size: 18.0,
         ),
