@@ -76,7 +76,7 @@ class _CupertinoControlsState extends State<CupertinoControls>
     final backgroundColor = widget.backgroundColor;
     final iconColor = widget.iconColor;
     final orientation = MediaQuery.of(context).orientation;
-    final barHeight = orientation == Orientation.portrait ? 100.0 : 100.0;
+    final barHeight = orientation == Orientation.portrait ? 30.0 : 47.0;
     final buttonPadding = orientation == Orientation.portrait ? 16.0 : 24.0;
 
     return MouseRegion(
@@ -93,20 +93,23 @@ class _CupertinoControlsState extends State<CupertinoControls>
                 )
               else
                 _buildHitArea(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  _buildTopBar(
-                      backgroundColor, iconColor, barHeight, buttonPadding),
-                  const Spacer(),
-                  if (_subtitleOn)
-                    Transform.translate(
-                      offset: Offset(
-                          0.0, notifier.hideStuff ? barHeight * 0.8 : 0.0),
-                      child: _buildSubtitles(chewieController.subtitle!),
-                    ),
-                  _buildBottomBar(backgroundColor, iconColor, barHeight),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    _buildTopBar(
+                        backgroundColor, iconColor, barHeight, buttonPadding),
+                    const Spacer(),
+                    if (_subtitleOn)
+                      Transform.translate(
+                        offset: Offset(
+                            0.0, notifier.hideStuff ? barHeight * 0.8 : 0.0),
+                        child: _buildSubtitles(chewieController.subtitle!),
+                      ),
+                    _buildBottomBar(backgroundColor, iconColor, barHeight),
+                  ],
+                ),
               ),
             ],
           ),
@@ -203,32 +206,27 @@ class _CupertinoControlsState extends State<CupertinoControls>
               child: Container(
                 height: barHeight,
                 color: backgroundColor,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      children: [
-                        _buildPosition(iconColor),
-                        _buildProgressBar(),
-                        _buildRemaining(iconColor),
-                        _buildSubtitleToggle(iconColor, barHeight),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        _buildSkipBack(iconColor, barHeight),
-                        _buildPlayPause(controller, iconColor, barHeight),
-                        _buildSkipForward(iconColor, barHeight),
-                        if (chewieController.allowPlaybackSpeedChanging)
-                          SizedBox(),
-                      ],
-                    ),
-                  ],
-                ),
+                child: chewieController.isLive
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          _buildPlayPause(controller, iconColor, barHeight),
+                          _buildLive(iconColor),
+                        ],
+                      )
+                    : Row(
+                        children: <Widget>[
+                          _buildSkipBack(iconColor, barHeight),
+                          _buildPlayPause(controller, iconColor, barHeight),
+                          _buildSkipForward(iconColor, barHeight),
+                          _buildPosition(iconColor),
+                          _buildProgressBar(),
+                          _buildRemaining(iconColor),
+                          _buildSubtitleToggle(iconColor, barHeight),
+                          if (chewieController.allowPlaybackSpeedChanging)
+                            SizedBox(),
+                        ],
+                      ),
               ),
             ),
           ),
