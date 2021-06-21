@@ -220,6 +220,8 @@ class _CupertinoControlsState extends State<CupertinoControls>
                           _buildProgressBar(),
                           _buildRemaining(iconColor),
                           _buildSubtitleToggle(iconColor, barHeight),
+                          if (chewieController.allowPlaybackSpeedChanging)
+                            _buildSpeedButton(controller, iconColor, barHeight),
                         ],
                       ),
               ),
@@ -475,27 +477,7 @@ class _CupertinoControlsState extends State<CupertinoControls>
     double barHeight,
   ) {
     return GestureDetector(
-      onTap: () async {
-        _hideTimer?.cancel();
-
-        final chosenSpeed = await showCupertinoModalPopup<double>(
-          context: context,
-          semanticsDismissible: true,
-          useRootNavigator: true,
-          builder: (context) => _PlaybackSpeedDialog(
-            speeds: chewieController.playbackSpeeds,
-            selected: _latestValue.playbackSpeed,
-          ),
-        );
-
-        if (chosenSpeed != null) {
-          controller.setPlaybackSpeed(chosenSpeed);
-        }
-
-        if (_latestValue.isPlaying) {
-          _startHideTimer();
-        }
-      },
+      onTap: () async {},
       child: Container(
         height: barHeight,
         color: Colors.transparent,
@@ -513,7 +495,7 @@ class _CupertinoControlsState extends State<CupertinoControls>
             ..rotateZ(math.pi * 0.8),
           child: Icon(
             Icons.speed,
-            color: iconColor,
+            color: iconColor.withOpacity(0),
             size: 18.0,
           ),
         ),
